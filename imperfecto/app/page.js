@@ -1,4 +1,5 @@
 'use client';
+
 import { useState } from 'react';
 import { Box, Button, TextField, MenuItem, Select, InputLabel, FormControl, Typography } from '@mui/material';
 
@@ -26,19 +27,27 @@ export default function Home() {
 
   const handleSubmit = async () => {
     if (inputValue || selectedImage) {
+      console.log(inputValue)
+      console.log("inputvalue",typeof(inputValue))
+
+     
       const response = await fetch('https://imperfecto-scrapper.vercel.app/url', {
         method: 'POST',
         headers: {
-          'Content-Type': 'text/plain',
+          'Content-Type': 'application/json'
         },
-        body: {"url": inputValue.toString},
+        body: JSON.stringify({url: inputValue}),
       });
-
+      console.log("response", response)
       if (response.ok) {
-        const result = await response.json();
-        setResponseText(result.responseText || 'No response received');
+        
+        const result = await response.text();
+       
+        setResponseText(result || 'No response received');
       } else {
+        
         setResponseText('Failed to fetch response');
+        
       }
     }
   };
