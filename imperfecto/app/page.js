@@ -55,7 +55,8 @@ export default function Home() {
       if (response.ok) {
         
         const result = await response.text();
-       
+        result = await fetch ("h")
+        
         setResponseText(result || 'No response received');
       } else {
         
