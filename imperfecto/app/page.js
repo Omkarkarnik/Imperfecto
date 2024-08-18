@@ -26,12 +26,74 @@ export default function Home() {
   };
 
   const handleSubmit = async () => {
-    if (inputValue || selectedImage) {
+
+    function isUrl(string) {
+      // Regular expression to match http and https URLs
+      const urlPattern = new RegExp(
+        '^(https?:\\/\\/)?' + // match http or https or no protocol
+        '((([a-zA-Z0-9$-_@.&+!*\'(),]+)\\.)+[a-zA-Z]{2,})' + // match domain name
+        '(\\/[^\\s]*)?$', // match the rest of the URL path
+        'i' // case insensitive
+      );
+
+      return urlPattern.test(string);
+    }
+   
+    
+
+    if (isUrl(inputValue)) {
+      
+     
+      const response = await fetch('https://imperfecto-scrapper.vercel.app/url', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({url: inputValue}),
+      });
+      console.log("response", response)
+      if (response.ok) {
+        
+        const result = await response.text();
+       
+        setResponseText(result || 'No response received');
+      } else {
+        
+        setResponseText('Failed to fetch response');
+        
+      }
+    }
+    else if (inputValue) {
+      
       console.log(inputValue)
       console.log("inputvalue",typeof(inputValue))
 
      
-      const response = await fetch('https://imperfecto-scrapper.vercel.app/url', {
+      const response = await fetch('https://imperfecto-scrapper.vercel.app/text', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({text: inputValue}),
+      });
+      console.log("response", response)
+      if (response.ok) {
+        
+        const result = await response.text();
+       
+        setResponseText(result || 'No response received');
+      } else {
+        
+        setResponseText('Failed to fetch response');
+        
+      }
+    }
+    if (selectedImage ) {
+      console.log(selectedImage)
+      console.log("inputvalue",typeof(selectedImage))
+
+     
+      const response = await fetch('https://imperfecto-scrapper.vercel.app/images', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
