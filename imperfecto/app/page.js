@@ -12,7 +12,7 @@ export default function Home() {
     setSelectedOption(event.target.value);
     setInputValue('');
     setSelectedImage(null);
-    setResponseText(''); // Clear response text when changing options
+    setResponseText('');
   };
 
   const handleInputChange = (event) => {
@@ -29,9 +29,9 @@ export default function Home() {
       const response = await fetch('/api/text', {
         method: 'POST',
         headers: {
-          'Content-Type': 'text/plain', // Or 'application/json' if sending JSON data
+          'Content-Type': 'text/plain',
         },
-        body: inputValue, // Or handle file upload if sending images
+        body: inputValue,
       });
 
       if (response.ok) {
@@ -44,9 +44,8 @@ export default function Home() {
   };
 
   const formatResponseText = (text) => {
-    // Replace Markdown-style bold with HTML-style bold
     return text.replace(/(\*\*[^*]+\*\*)/g, '<strong>$1</strong>')
-      .replace(/\n\n/g, '<br><br>'); // Ensure paragraphs have spacing
+      .replace(/\n\n/g, '<br><br>');
   };
 
   return (
