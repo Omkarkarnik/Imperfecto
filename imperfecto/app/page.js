@@ -31,7 +31,7 @@ export default function Home() {
         headers: {
           'Content-Type': 'text/plain',
         },
-        body: {"url": inputValue},
+        body: {"url": inputValue.toString},
       });
 
       if (response.ok) {
