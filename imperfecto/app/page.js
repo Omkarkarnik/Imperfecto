@@ -1,7 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { Box, Button, TextField, MenuItem, Select, InputLabel, FormControl, Typography } from '@mui/material';
+import DownloadIcon from '@mui/icons-material/Download';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import { Box, Button, IconButton, TextField, MenuItem, Select, InputLabel, FormControl, Typography } from '@mui/material';
 
 export default function Home() {
   const [selectedOption, setSelectedOption] = useState('');
@@ -413,13 +416,63 @@ export default function Home() {
         >
           Submit
         </Button>
-   
         {responseText && (
-          <Typography
-            variant="body1"
-            sx={{ marginTop: '1rem', color: '#333' }}
-            dangerouslySetInnerHTML={{ __html: formatResponseText(responseText) }}
-          />
+          <Box 
+            sx={{ 
+              marginTop: '1rem', 
+              padding: '1rem', 
+              border: '1px solid #ccc', 
+              borderRadius: '8px', 
+              position: 'relative', // Allows positioning of the icon
+              backgroundColor: '#f3f3f3', // Same background as the inner box
+            }}
+          >
+            <IconButton
+              sx={{ color: '#666' }} // Dark grey color for the icons
+              onClick={() => {
+                // Handle "like" action here
+              }}
+            >
+              <ThumbUpIcon />
+            </IconButton>
+            <IconButton
+              sx={{ color: '#666' }} // Dark grey color for the icons
+              onClick={() => {
+                // Handle "dislike" action here
+              }}
+            >
+              <ThumbDownIcon />
+            </IconButton>
+            <IconButton
+              sx={{
+                position: 'absolute', 
+                top: '8px', 
+                right: '8px', 
+                color: '#666', // Dark grey color for the icon
+              }}
+              onClick={() => {
+                // Create a Blob from the response text
+                const blob = new Blob([responseText], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+
+                // Create a link element, set its href and download attributes, then click it programmatically
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'response.txt';
+                link.click();
+
+                // Clean up the URL object
+                URL.revokeObjectURL(url);
+              }}
+            >
+              <DownloadIcon />
+            </IconButton>
+            <Typography
+              variant="body1"
+              sx={{ color: '#333' }}
+              dangerouslySetInnerHTML={{ __html: formatResponseText(responseText) }}
+            />
+          </Box>
         )}
       </Box>
     </Box>
