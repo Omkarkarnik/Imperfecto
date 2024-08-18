@@ -55,12 +55,33 @@ export default function Home() {
       if (response.ok) {
         
         const result = await response.text();
+        // LLm-url-call-starts
+         
+        const llm_response = await fetch('api/text', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({result}),
+        });
+        console.log("llm_text_response", llm_response)
+        if (llm_response.ok) {
+          
+          const final_result = await llm_response.text();
+          
+          setResponseText(final_result || 'No response received from llm');
+        } else {
+          
+          setResponseText('Failed to fetch response from llm');
+          
+        }
+        // llm-url-call ends
+
         
         
-        setResponseText(result || 'No response received');
       } else {
         
-        setResponseText('Failed to fetch response');
+        setResponseText('Failed to fetch response from scrapper');
         
       }
     }
@@ -77,15 +98,37 @@ export default function Home() {
         },
         body: JSON.stringify({text: inputValue}),
       });
-      console.log("response", response)
+      console.log("response from scrapper", response)
       if (response.ok) {
         
         const result = await response.text();
-       
-        setResponseText(result || 'No response received');
+        // LLm-text-call-starts
+         
+        const llm_response = await fetch('api/text', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({result}),
+        });
+        console.log("llm_text_response", llm_response)
+        if (llm_response.ok) {
+          
+          const final_result = await llm_response.text();
+          
+          setResponseText(final_result || 'No response received from llm');
+        } else {
+          
+          setResponseText('Failed to fetch response from llm');
+          
+        }
+        // llm-text-call ends
+
+        
+        
       } else {
         
-        setResponseText('Failed to fetch response');
+        setResponseText('Failed to fetch response from scrapper');
         
       }
     }

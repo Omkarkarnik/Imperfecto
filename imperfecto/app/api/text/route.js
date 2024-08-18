@@ -21,6 +21,7 @@ Explain what changes were made and how they enhance the overall quality, clarity
 // Function to process text with openAI-API
 export async function POST(req) {
     try {
+        console.log("Inside LLM")
         // Set up the OpenAI API client with your API key
         const apiKey = process.env.OPENAI_API_KEY;
         const configuration = new Configuration({ apiKey });
