@@ -26,7 +26,7 @@ export default function Home() {
 
   const handleSubmit = async () => {
     if (inputValue || selectedImage) {
-      const response = await fetch('/api/text', {
+      const response = await fetch('https://imperfecto-scrapper.vercel.app/url', {
         method: 'POST',
         headers: {
           'Content-Type': 'text/plain',
